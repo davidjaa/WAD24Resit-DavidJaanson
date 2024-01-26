@@ -25,7 +25,10 @@
             <td>{{ request.utcoursename }}</td>
             <td>{{ request.utcoursecode }}</td>
             <td>{{ request.utcourseects }}</td>
-            <td>{{ request.decision }}</td>
+            <td>
+              <span v-if="!request.decision"><strong>Under Processing</strong></span>
+              <span v-else>{{ request.decision }}</span>
+            </td>            
           </tr>
         </tbody>
 
