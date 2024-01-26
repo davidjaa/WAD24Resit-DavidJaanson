@@ -42,3 +42,20 @@ app.post('/api/rplrequests', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.post('/api/rplrequests/:id/makedecision', async (req, res) => {
+    try {
+        const requestId = req.params.id;
+        const { decision } = req.body;
+
+        const updatedRequest = await pool.query(
+            'UPDATE rplrequest SET decision = $1 WHERE id = $2 RETURNING *',
+            [decision, requestId]
+        );
+
+        res.json(updatedRequest.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
