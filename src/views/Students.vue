@@ -36,9 +36,9 @@
     
   </div>
 
-  <h3>Submit an RPL request</h3>
+  <h3 @click="toggleFormVisibility">Submit an RPL request</h3>
 
-  <div class="form-container">
+  <div v-if="showForm" class="form-container">
       <form @submit.prevent="submitRPLRequest" class="rpl-form">
 
         <div class="form-group">
@@ -78,7 +78,7 @@
         <input type="number" v-model="newRequest.utcourseects" required>
         </div>
 
-        <button type="submit" class="submit-button">Submit RPL Request</button>
+        <button type="submit" class="submit-button">Submit an RPL Request</button>
       </form>
     </div>
   </div>
@@ -100,7 +100,8 @@ export default {
         utcoursecode: "",
         utcoursename: "",
         utcourseects: "",
-      }
+      },
+      showForm: false,
     };
   },
   methods: {
@@ -133,6 +134,9 @@ export default {
           };
         })
         .catch((err) => console.log(err.message));
+    },
+    toggleFormVisibility(){
+      this.showForm = !this.showForm;
     },
   },
   mounted() {
