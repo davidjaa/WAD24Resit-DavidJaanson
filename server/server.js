@@ -26,3 +26,19 @@ app.get('/api/rplrequests', async(req, res) => {
         console.error(err.message);
     }
 });
+
+app.post('/api/rplrequests', async (req, res) => {
+    try {
+        const { studentcode, coursename, coursecode, courseects, utcoursecode, utcoursename, utcourseects, decision } = req.body;
+
+        const rplrequest = await pool.query(
+            'INSERT INTO rplrequest(studentcode, coursename, coursecode, courseects, utcoursecode, utcoursename, utcourseects, decision) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+            [studentcode, coursename, coursecode, courseects, utcoursecode, utcoursename, utcourseects, decision]
+        );
+
+        res.json(rplrequest.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
